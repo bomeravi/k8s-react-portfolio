@@ -12,9 +12,9 @@ pipeline {
   environment {
     K8S_VALUES_FILE = 'k8s/helm/react-portfolio/values.yaml'
     K8S_CHART_FILE = 'k8s/helm/react-portfolio/Chart.yaml'
-    GIT_CREDENTIALS_ID = 'k8s-git-ssh'
-    GIT_USER_NAME = 'jenkins'
-    GIT_USER_EMAIL = 'jenkins@local'
+    GIT_CREDENTIALS_ID = 'github-creds'
+    GIT_USER_NAME = 'bomeravi'
+    GIT_USER_EMAIL = 'bomeravi@gmail.com'
   }
 
   stages {
