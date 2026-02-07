@@ -56,8 +56,12 @@ pipeline {
 
     stage('Push') {
       steps {
-        sshagent([env.GIT_CREDENTIALS_ID]) {
-          sh 'git push origin HEAD'
+        withCredentials([sshUserPrivateKey(credentialsId: env.GIT_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+          sh '''
+            set -eu
+            export GIT_SSH_COMMAND="ssh -i ${SSH_KEY} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+            git push origin HEAD
+          '''
         }
       }
     }
