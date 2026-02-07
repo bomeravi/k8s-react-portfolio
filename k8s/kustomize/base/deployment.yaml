@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-portfolio
+  labels:
+    app: react-portfolio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: react-portfolio
+  template:
+    metadata:
+      labels:
+        app: react-portfolio
+    spec:
+      containers:
+        - name: app
+          image: bomeravi/react-portfolio:v1.2.3
+          ports:
+            - containerPort: 80

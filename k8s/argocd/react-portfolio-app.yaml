@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: react-portfolio
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:bomeravi/k8s-react-portfolio.git
+    targetRevision: HEAD
+    path: k8s/helm/react-portfolio
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: react-portfolio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
