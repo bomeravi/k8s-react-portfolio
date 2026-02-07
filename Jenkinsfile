@@ -36,7 +36,7 @@ pipeline {
     stage('Update Image Tag') {
       steps {
         sh '''
-          set -euo pipefail
+          set -eu
           git config user.name "${GIT_USER_NAME}"
           git config user.email "${GIT_USER_EMAIL}"
 
