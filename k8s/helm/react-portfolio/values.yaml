@@ -12,6 +12,23 @@ service:
 
 resources: {}
 
+# Pod resource requests/limits
+resources:
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+  requests:
+    cpu: "250m"
+    memory: "128Mi"
+
+# Horizontal Pod Autoscaler settings
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  # target CPU utilization for scaling (percent)
+  targetCPUUtilizationPercentage: 60
+
 ingress:
   enabled: true
   className: "nginx"
