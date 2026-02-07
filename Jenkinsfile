@@ -12,6 +12,7 @@ pipeline {
   environment {
     K8S_VALUES_FILE = 'k8s/helm/react-portfolio/values.yaml'
     K8S_CHART_FILE = 'k8s/helm/react-portfolio/Chart.yaml'
+    GIT_REMOTE_SSH = 'git@github.com:bomeravi/k8s-react-portfolio.git'
     GIT_CREDENTIALS_ID = 'github-private-key'
     GIT_USER_NAME = 'bomeravi'
     GIT_USER_EMAIL = 'bomeravi@gmail.com'
@@ -30,6 +31,7 @@ pipeline {
     stage('Checkout') {
       steps {
         checkout scm
+        sh 'git remote set-url origin ${GIT_REMOTE_SSH}'
       }
     }
 
