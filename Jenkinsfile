@@ -12,8 +12,8 @@ pipeline {
   environment {
     K8S_VALUES_FILE = 'k8s/helm/react-portfolio/values.yaml'
     K8S_CHART_FILE = 'k8s/helm/react-portfolio/Chart.yaml'
-    GIT_REMOTE_SSH = 'git@github.com:bomeravi/k8s-react-portfolio.git'
-    GIT_CREDENTIALS_ID = 'github-private-key'
+    GIT_HTTP_URL = 'https://github.com/bomeravi/k8s-react-portfolio.git'
+    GIT_HTTP_CREDENTIALS_ID = 'github-creds'
     GIT_USER_NAME = 'bomeravi'
     GIT_USER_EMAIL = 'bomeravi@gmail.com'
   }
@@ -31,7 +31,6 @@ pipeline {
     stage('Checkout') {
       steps {
         checkout scm
-        sh 'git remote set-url origin ${GIT_REMOTE_SSH}'
       }
     }
 
@@ -58,11 +57,10 @@ pipeline {
 
     stage('Push') {
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: env.GIT_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+        withCredentials([usernamePassword(credentialsId: env.GIT_HTTP_CREDENTIALS_ID, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
           sh '''
             set -eu
-            export GIT_SSH_COMMAND="ssh -i ${SSH_KEY} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-            git push origin HEAD
+            git push "https://${GIT_USER}:${GIT_TOKEN}@github.com/bomeravi/k8s-react-portfolio.git" HEAD:main
           '''
         }
       }
